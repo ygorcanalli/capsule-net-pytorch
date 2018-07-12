@@ -13,6 +13,8 @@ import torch.nn.functional as F
 
 import utils
 
+from custom import AdaptativeBiHyperbolicLayer
+
 
 class Decoder(nn.Module):
     """
@@ -45,7 +47,9 @@ class Decoder(nn.Module):
         self.fc3 = nn.Linear(fc2_output_size, self.fc3_output_size)
         # Activation functions
         self.relu = nn.ReLU(inplace=True)
-        self.sigmoid = nn.Sigmoid()
+        self.sigmoid = AdaptativeBiHyperbolicLayer(fc2_output_size,
+                                                   self.fc3_output_size,
+                                                   range='sigmoid')
 
     def forward(self, x, target):
         """
