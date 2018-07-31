@@ -13,9 +13,6 @@ import torch.nn.functional as F
 
 import utils
 
-from custom import AdaptativeBiHyperbolicLayer
-
-
 class Decoder(nn.Module):
     """
     Implement Decoder structure in section 4.1, Figure 2 to reconstruct a digit
@@ -47,9 +44,7 @@ class Decoder(nn.Module):
         self.fc3 = nn.Linear(fc2_output_size, self.fc3_output_size)
         # Activation functions
         self.relu = nn.ReLU(inplace=True)
-        self.sigmoid = AdaptativeBiHyperbolicLayer(fc2_output_size,
-                                                   self.fc3_output_size,
-                                                   range='sigmoid')
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, x, target):
         """
