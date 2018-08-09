@@ -6,14 +6,14 @@ import torch.nn.functional as F
 
 
 def _unidimensional_xavier_normal(tensor, fan_in, fan_out, gain=1):
-    std = gain * torch.sqrt(2.0 / (fan_in + fan_out))
+    std = gain * math.sqrt(2.0 / (fan_in + fan_out))
     return tensor.data.normal_(mean=0, std=std)
 
 def _bi_hyperbolic(tensor, lmbda, tau_1, tau_2, range='tanh'):
-    ones = torch.ones(shape=tensor.shape)
+    ones = torch.ones_like(tensor)
     
     if range is 'sigmoid':
-        zeros = torch.zeros(shape=tensor.shape)
+        zeros = torch.zeros_like(tensor)
         fn_out = 0.5 * ((torch.sqrt((2 * lmbda * tensor + 1)**2 + 4 * tau_1**2) -
             torch.sqrt((1 - 2 * lmbda * tensor)**2 + 4 * tau_2**2)) + 1)
         return torch.min(ones, torch.max(zeros, fn_out))
